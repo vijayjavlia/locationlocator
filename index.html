@@ -36,6 +36,65 @@
     <div class="latlong"></div>
     <!-- <script src="./leafletjs/leaflet.js"></script>
     <script src="/index.js"></script> -->
-    <script src="/locator.js"></script>
+    <!-- <script src="locator.js"></script> -->
+
+    <script>
+var lat='';
+var long='';
+// function getlocation()
+// {
+//     alert(location);
+//     return location;
+// }
+
+
+const locator=() => {
+    const message = document.querySelector('#message');
+     console.log(message);
+    // check if the Geolocation API is supported
+    if (!navigator.geolocation) {
+        message.textContent = `Your browser doesn't support Geolocation`;
+        message.classList.add('error');
+        return;
+    }
+
+    // handle click event
+    const btn = document.querySelector('#show');
+    btn.addEventListener('click', function () {
+        // get the current position
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    });
+
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    // handle success case
+    function onSuccess(position) {
+        const {
+            latitude,
+            longitude
+        } = position.coords;
+       
+        message.classList.add('success');
+        if(lat != latitude && long != longitude)
+        message.textContent = `Your location: (${latitude},${longitude})`;
+        
+if (lat =='' || long == '') {lat= latitude; long =longitude;}
+
+       console.log(lat,long)
+
+       document.querySelector(".latlong").innerHTML += '<br>'+lat+ " ::: "+long
+
+
+    }
+
+    // handle error case
+    function onError() {
+        message.classList.add('error');
+        message.textContent = `Failed to get your location!`;
+    }
+};
+
+setInterval(locator ,1000);
+
+    </script>
 </body>
 </html>
